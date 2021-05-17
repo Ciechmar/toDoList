@@ -12,19 +12,19 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class ToDoListApplication implements RepositoryRestConfigurer {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         SpringApplication.run(ToDoListApplication.class, args);
-    }
-
-    @Override
-    public void configureValidatingRepositoryEventListener(final ValidatingRepositoryEventListener validatingListener) {
-//        RepositoryRestConfigurer.super.configureValidatingRepositoryEventListener(validatingListener);
-        validatingListener.addValidator("beforeCreated", validator());
-        validatingListener.addValidator("beforeSave", validator());
     }
 
     @Bean
     Validator validator() {
         return new LocalValidatorFactoryBean();
     }
+
+    @Override
+    public void configureValidatingRepositoryEventListener(final ValidatingRepositoryEventListener validatingListener) {
+        RepositoryRestConfigurer.super.configureValidatingRepositoryEventListener(validatingListener);
+        validatingListener.addValidator("beforeCreated", validator());
+        validatingListener.addValidator("beforeSave", validator());
+    }
+
 }
